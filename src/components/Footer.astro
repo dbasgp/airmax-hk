@@ -1,0 +1,87 @@
+---
+import { t, lp, type Locale } from '../i18n/index';
+import { contact } from '../data/products';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+
+const links = [
+  { key: 'nav.home' as const,     href: lp(locale) },
+  { key: 'nav.products' as const, href: lp(locale, '/products') },
+  { key: 'nav.why' as const,      href: lp(locale, '/why-airmax') },
+  { key: 'nav.enquiry' as const,  href: lp(locale, '/enquiry') },
+  { key: 'nav.about' as const,    href: lp(locale, '/about') },
+];
+---
+
+<footer class="border-t border-slate-100 bg-slate-50">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
+
+      <!-- Brand -->
+      <div>
+        <a href={lp(locale)} class="text-xl font-semibold tracking-tight text-slate-900">
+          Air<span class="text-sky-500">Max</span><span class="text-slate-400 text-sm">.hk</span>
+        </a>
+        <p class="mt-3 text-sm text-slate-500">{t(locale, 'footer.tagline')}</p>
+      </div>
+
+      <!-- Quick links -->
+      <div>
+        <h3 class="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+          {t(locale, 'footer.links')}
+        </h3>
+        <ul class="space-y-2">
+          {links.map(({ key, href }) => (
+            <li>
+              <a href={href} class="text-sm text-slate-600 transition-colors hover:text-sky-500">
+                {t(locale, key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
+          {t(locale, 'footer.contact')}
+        </h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href={`https://wa.me/${contact.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-slate-600 transition-colors hover:text-sky-500"
+            >
+              {t(locale, 'about.whatsapp')} — {contact.whatsappDisplay}
+            </a>
+          </li>
+          <li>
+            <a
+              href={`mailto:${contact.email}`}
+              class="text-sm text-slate-600 transition-colors hover:text-sky-500"
+            >
+              {contact.email}
+            </a>
+          </li>
+        </ul>
+
+        <!-- Language toggle -->
+        <div class="mt-6 flex gap-3 text-xs text-slate-400">
+          <a href={lp('zh')} class={`transition-colors hover:text-slate-700 ${locale === 'zh' ? 'font-semibold text-slate-700' : ''}`}>繁體中文</a>
+          <span>·</span>
+          <a href={lp('en')} class={`transition-colors hover:text-slate-700 ${locale === 'en' ? 'font-semibold text-slate-700' : ''}`}>English</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-slate-200 pt-6 text-xs text-slate-400">
+      © {year} AirMax.hk — {t(locale, 'footer.rights')}
+    </div>
+  </div>
+</footer>

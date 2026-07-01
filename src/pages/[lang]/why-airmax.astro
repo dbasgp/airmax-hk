@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FeatureGrid from '../../components/FeatureGrid.astro';
+import { t, lp, staticPaths, type Locale } from '../../i18n/index';
+import { contact } from '../../data/products';
+
+export function getStaticPaths() { return staticPaths(); }
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+
+const pageTitle = locale === 'zh'
+  ? '為何選擇 AirMax — 香港冷風機專家'
+  : 'Why AirMax — Hong Kong Air Cooler Specialists';
+const pageDesc = locale === 'zh'
+  ? '了解 AirMax 冷風機的優勢：節能、淨化空氣、智能控制，適合香港氣候。'
+  : 'Learn why AirMax air coolers are the smart choice for Hong Kong — efficient, quiet, and smart-controlled.';
+---
+
+<Layout
+  locale={locale}
+  title={pageTitle}
+  description={pageDesc}
+  canonicalPath={lp(locale, '/why-airmax')}
+>
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+
+    <div class="section-header reveal">
+      <p class="section-label">{t(locale, 'why.label')}</p>
+      <h1 class="section-title">{t(locale, 'why.title')}</h1>
+      <p class="section-subtitle">{t(locale, 'why.sub')}</p>
+    </div>
+
+    <FeatureGrid locale={locale} />
+
+    <!-- How evaporative cooling works -->
+    <div class="mt-16 reveal">
+      <div class="rounded-2xl border border-slate-100 bg-slate-50 p-8 lg:p-10">
+        <h2 class="mb-4 text-xl font-medium text-slate-900">
+          {locale === 'zh' ? '蒸發式冷卻原理' : 'How evaporative cooling works'}
+        </h2>
+        <p class="max-w-2xl text-sm text-slate-600 leading-relaxed">
+          {locale === 'zh'
+            ? '蒸發式冷風機利用水分蒸發時吸收熱能的原理降溫。熱空氣通過濕潤的冷卻墊時，水分蒸發令空氣降溫最多 10°C，同時增加濕度，比冷氣機耗電減少高達 80%。最適合半開放空間及通風良好的環境。'
+            : 'Evaporative coolers work by drawing warm air through a wet cooling pad. As the water evaporates, it absorbs heat — dropping air temperature by up to 10°C while adding moisture. Uses up to 80% less electricity than air conditioning. Works best in semi-open or well-ventilated spaces.'}
+        </p>
+
+        <!-- Comparison table -->
+        <div class="mt-6 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-400 uppercase tracking-wider">
+                <th class="pb-3 font-medium"></th>
+                <th class="pb-3 font-medium text-sky-500">AirMax</th>
+                <th class="pb-3 font-medium">{locale === 'zh' ? '傳統冷氣' : 'Air conditioning'}</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {[
+                { label: locale === 'zh' ? '耗電量' : 'Power usage', am: locale === 'zh' ? '低' : 'Low', ac: locale === 'zh' ? '高' : 'High' },
+                { label: locale === 'zh' ? '冷媒' : 'Refrigerant', am: locale === 'zh' ? '不需要' : 'None', ac: locale === 'zh' ? '需要' : 'Required' },
+                { label: locale === 'zh' ? '空氣淨化' : 'Air purification', am: locale === 'zh' ? '部分型號' : 'Select models', ac: '✕' },
+                { label: locale === 'zh' ? '安裝' : 'Installation', am: locale === 'zh' ? '即插即用' : 'Plug and play', ac: locale === 'zh' ? '需要安裝' : 'Professional required' },
+                { label: locale === 'zh' ? '維護' : 'Maintenance', am: locale === 'zh' ? '簡單' : 'Simple', ac: locale === 'zh' ? '定期需要' : 'Regular servicing' },
+              ].map(({ label, am, ac }) => (
+                <tr>
+                  <td class="py-2.5 text-slate-500">{label}</td>
+                  <td class="py-2.5 font-medium text-sky-600">{am}</td>
+                  <td class="py-2.5 text-slate-400">{ac}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-14 reveal flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <a href={lp(locale, '/products')} class="btn-primary">
+        {t(locale, 'hero.cta.range')}
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a
+        href={`https://wa.me/${contact.whatsapp}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary"
+      >
+        {t(locale, 'why.cta')}
+      </a>
+    </div>
+
+  </div>
+</Layout>
