@@ -21,7 +21,7 @@ export const ui = {
     // Product range
     'range.title': '產品系列',
     'range.label': '冷風機 ＆ 風扇',
-    'range.sub': '涵蓋 300 至 18,000+ CMH，適合各種空間。',
+    'range.sub': '300 至 1,200 呎均有型號，適合家居、商用至工業空間。',
     'range.coolers': '冷風機',
     'range.fans': '工業風扇',
     'range.coverage': '適用面積',
@@ -31,6 +31,9 @@ export const ui = {
     'range.cta': 'WhatsApp 查詢',
     'range.detail': '查看詳情',
     'range.sqft': '呎',
+    'range.cools': '適冷約',
+    'range.industrial': '工業用途',
+    'range.fan.desc': '大型循環送風',
 
     // Product detail
     'detail.specs': '規格',
@@ -57,7 +60,7 @@ export const ui = {
     'why.f4.title': '靜音運行',
     'why.f4.desc': '低噪音設計，適合辦公室及住宅環境。',
     'why.f5.title': '廣泛覆蓋',
-    'why.f5.desc': '覆蓋 300 至 1,200+ 呎，適合各種空間需求。',
+    'why.f5.desc': '型號覆蓋 300 至 1,200 呎，由客廳到大型商業空間均適用。',
     'why.f6.title': '節能環保',
     'why.f6.desc': '無需冷媒，耗電量比傳統冷氣低達 80%。',
     'why.cta': 'WhatsApp 查詢',
@@ -114,7 +117,7 @@ export const ui = {
     // Product range
     'range.title': 'Product Range',
     'range.label': 'Coolers & Fans',
-    'range.sub': 'From 300 to 18,000+ CMH — find the right fit for your space.',
+    'range.sub': 'From a small room to a large commercial space — find the right size.',
     'range.coolers': 'Air Coolers',
     'range.fans': 'Industrial Fans',
     'range.coverage': 'Coverage',
@@ -124,6 +127,9 @@ export const ui = {
     'range.cta': 'Enquire on WhatsApp',
     'range.detail': 'View details',
     'range.sqft': 'sqft',
+    'range.cools': 'Cools ~',
+    'range.industrial': 'Industrial use',
+    'range.fan.desc': 'High-volume air circulation',
 
     // Product detail
     'detail.specs': 'Specifications',

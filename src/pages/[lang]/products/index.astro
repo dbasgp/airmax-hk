@@ -26,34 +26,42 @@ const pageDesc = locale === 'zh'
   <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
 
     <!-- Header -->
-    <div class="section-header reveal">
-      <p class="section-label">{t(locale, 'range.label')}</p>
-      <h1 class="section-title">{t(locale, 'range.title')}</h1>
-      <p class="section-subtitle">{t(locale, 'range.sub')}</p>
+    <div class="mb-14 max-w-xl reveal">
+      <h1 class="text-4xl font-semibold tracking-tight text-slate-900 lg:text-5xl">
+        {t(locale, 'range.title')}
+      </h1>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        {t(locale, 'range.sub')}
+      </p>
     </div>
 
     <!-- Air Coolers -->
     <section class="mb-16" aria-labelledby="coolers-heading">
-      <h2 id="coolers-heading" class="mb-6 flex items-center gap-2 text-lg font-medium text-slate-900 reveal">
-        <span class="inline-block h-2 w-2 rounded-full bg-sky-500" aria-hidden="true"></span>
-        {t(locale, 'range.coolers')}
-        <span class="ml-1 text-sm font-normal text-slate-400">({coolers.length})</span>
-      </h2>
-      <div class="reveal-stagger grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="mb-6 flex items-baseline justify-between reveal">
+        <h2 id="coolers-heading" class="text-xl font-semibold text-slate-900">
+          {t(locale, 'range.coolers')}
+          <span class="ml-2 text-base font-normal text-slate-400">({coolers.length})</span>
+        </h2>
+      </div>
+      <div class="reveal-stagger grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {coolers.map((product) => (
           <ProductCard product={product} locale={locale} />
         ))}
       </div>
     </section>
 
+    <!-- Divider -->
+    <div class="mb-14 border-t border-slate-100"></div>
+
     <!-- Industrial Fans -->
     <section aria-labelledby="fans-heading">
-      <h2 id="fans-heading" class="mb-6 flex items-center gap-2 text-lg font-medium text-slate-900 reveal">
-        <span class="inline-block h-2 w-2 rounded-full bg-slate-400" aria-hidden="true"></span>
-        {t(locale, 'range.fans')}
-        <span class="ml-1 text-sm font-normal text-slate-400">({fans.length})</span>
-      </h2>
-      <div class="reveal-stagger grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="mb-6 flex items-baseline justify-between reveal">
+        <h2 id="fans-heading" class="text-xl font-semibold text-slate-900">
+          {t(locale, 'range.fans')}
+          <span class="ml-2 text-base font-normal text-slate-400">({fans.length})</span>
+        </h2>
+      </div>
+      <div class="reveal-stagger grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {fans.map((product) => (
           <ProductCard product={product} locale={locale} />
         ))}

@@ -22,12 +22,14 @@ const imgErr = locale === 'zh' ? '圖片即將上線' : 'Image coming soon';
 const displayName = name[locale];
 const waHref = waLink(enquiry[locale]);
 
-const pageTitle = locale === 'zh'
-  ? `${displayName} — AirMax.hk`
-  : `${displayName} — AirMax.hk`;
+const sqftNum = coverage ? parseInt(coverage) : 0;
+const sqftFormatted = sqftNum ? sqftNum.toLocaleString('en-HK') : '';
+const isFan = category === 'fan';
+
+const pageTitle = `${displayName} — AirMax.hk`;
 const pageDesc = locale === 'zh'
-  ? `${displayName}${airflow ? `，風量 ${airflow}` : ''}${coverage ? `，適用面積 ${coverage}` : ''}。WhatsApp 查詢即時回覆。`
-  : `${displayName}${airflow ? `, ${airflow} airflow` : ''}${coverage ? `, covers ${coverage}` : ''}. Enquire on WhatsApp.`;
+  ? `${displayName}${sqftNum ? `，適冷約 ${sqftFormatted} 呎` : ''}${airflow ? `，風量 ${airflow}` : ''}。WhatsApp 查詢即時回覆。`
+  : `${displayName}${sqftNum ? `, cools ~${sqftFormatted} sqft` : ''}${airflow ? `, ${airflow} airflow` : ''}. Enquire on WhatsApp.`;
 ---
 
 <Layout
@@ -41,15 +43,11 @@ const pageDesc = locale === 'zh'
 
     <!-- Breadcrumb -->
     <nav class="mb-8 flex items-center gap-2 text-sm text-slate-400 reveal" aria-label="Breadcrumb">
-      <a href={lp(locale)} class="hover:text-slate-600 transition-colors">
-        {t(locale, 'nav.home')}
-      </a>
+      <a href={lp(locale)} class="hover:text-slate-600 transition-colors">{t(locale, 'nav.home')}</a>
       <svg class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
       </svg>
-      <a href={lp(locale, '/products')} class="hover:text-slate-600 transition-colors">
-        {t(locale, 'nav.products')}
-      </a>
+      <a href={lp(locale, '/products')} class="hover:text-slate-600 transition-colors">{t(locale, 'nav.products')}</a>
       <svg class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
       </svg>
@@ -77,35 +75,67 @@ const pageDesc = locale === 'zh'
 
         <!-- Category badge -->
         <div>
-          <span class="spec-badge">
-            {category === 'cooler'
-              ? (locale === 'zh' ? '冷風機' : 'Air Cooler')
-              : (locale === 'zh' ? '工業風扇' : 'Industrial Fan')}
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-600">
+            {category === 'cooler' ? (
+              <>
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/>
+                </svg>
+                {locale === 'zh' ? '冷風機' : 'Air Cooler'}
+              </>
+            ) : (
+              <>
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5c-1.505 2.916-4.5 3-4.5 3S9 10.5 12 10.5c1.505-2.916 4.5-3 4.5-3S15 4.5 12 4.5zM12 19.5c1.505-2.916 4.5-3 4.5-3S15 13.5 12 13.5c-1.505 2.916-4.5 3-4.5 3S9 19.5 12 19.5zM4.5 12c2.916 1.505 3 4.5 3 4.5S10.5 15 10.5 12c-2.916-1.505-3-4.5-3-4.5S4.5 9 4.5 12zM19.5 12c-2.916 1.505-3 4.5-3 4.5S13.5 15 13.5 12c2.916-1.505 3-4.5 3-4.5S19.5 9 19.5 12z"/>
+                </svg>
+                {locale === 'zh' ? '工業風扇' : 'Industrial Fan'}
+              </>
+            )}
           </span>
         </div>
 
+        <!-- Name + SKU -->
         <div>
-          <h1 class="text-3xl font-medium tracking-tight text-slate-900 sm:text-4xl">
+          <h1 class="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             {displayName}
           </h1>
-          <p class="mt-1 text-sm text-slate-400">{t(locale, 'detail.sku')}: {sku}</p>
+          <p class="mt-1.5 text-sm text-slate-400">{t(locale, 'detail.sku')}: {sku}</p>
         </div>
 
+        <!-- Coverage hero stat (for coolers with coverage) -->
+        {sqftNum > 0 && (
+          <div class="rounded-2xl bg-sky-50 px-5 py-4 flex items-center gap-4">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-500">
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-sky-600 leading-none">
+                {sqftFormatted} {locale === 'zh' ? '呎' : 'sqft'}
+              </div>
+              <div class="mt-0.5 text-sm text-sky-500">
+                {locale === 'zh' ? '推薦適冷面積' : 'Recommended coverage area'}
+              </div>
+            </div>
+          </div>
+        )}
+
         <!-- Specs table -->
-        <div class="rounded-xl border border-slate-100 divide-y divide-slate-100">
+        <div class="divide-y divide-slate-100 rounded-xl border border-slate-100 overflow-hidden">
           {airflow && (
-            <div class="flex items-center justify-between px-4 py-3">
-              <span class="text-sm text-slate-500">{t(locale, 'detail.airflow')}</span>
+            <div class="flex items-center justify-between px-4 py-3 bg-white">
+              <span class="text-sm text-slate-500 flex items-center gap-2">
+                <svg class="h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                </svg>
+                {locale === 'zh' ? '風量（技術規格）' : 'Airflow (technical)'}
+              </span>
               <span class="text-sm font-medium text-slate-900">{airflow}</span>
             </div>
           )}
-          {coverage && (
-            <div class="flex items-center justify-between px-4 py-3">
-              <span class="text-sm text-slate-500">{t(locale, 'detail.coverage')}</span>
-              <span class="text-sm font-medium text-slate-900">{coverage}</span>
-            </div>
-          )}
-          <div class="flex items-center justify-between px-4 py-3">
+          <div class="flex items-center justify-between px-4 py-3 bg-white">
             <span class="text-sm text-slate-500">{t(locale, 'detail.price')}</span>
             <span class="text-sm font-medium text-slate-900">
               {priceHkd !== null ? formatHkd(priceHkd) : t(locale, 'detail.price.enquire')}
@@ -117,11 +147,11 @@ const pageDesc = locale === 'zh'
         {highlights.length > 0 && (
           <div>
             <h2 class="mb-3 text-sm font-semibold text-slate-700">{t(locale, 'detail.highlights')}</h2>
-            <ul class="space-y-2">
+            <ul class="space-y-2.5">
               {highlights.map((h) => (
-                <li class="flex items-start gap-2 text-sm text-slate-600">
-                  <svg class="mt-0.5 h-4 w-4 shrink-0 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                  <svg class="mt-0.5 h-4 w-4 shrink-0 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
                   </svg>
                   {h[locale]}
                 </li>
@@ -131,7 +161,7 @@ const pageDesc = locale === 'zh'
         )}
 
         <!-- WhatsApp CTA -->
-        <div class="pt-2">
+        <div class="pt-2 space-y-3">
           <a
             href={waHref}
             target="_blank"
@@ -143,8 +173,11 @@ const pageDesc = locale === 'zh'
             </svg>
             {t(locale, 'detail.enquire')}
           </a>
-          <a href={lp(locale, '/products')} class="btn-ghost mt-3 w-full justify-center">
-            ← {t(locale, 'detail.back')}
+          <a href={lp(locale, '/products')} class="btn-ghost w-full justify-center text-sm">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+            </svg>
+            {t(locale, 'detail.back')}
           </a>
         </div>
 
