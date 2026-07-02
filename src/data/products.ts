@@ -31,7 +31,7 @@ export interface Product {
 export const contact = {
   whatsapp: "85221210503",
   whatsappDisplay: "+852 2121 0503",
-  email: "info@cooler.hk",
+  email: "info@airmax.hk",
 };
 
 export const waLink = (text: string) =>
