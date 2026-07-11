@@ -82,7 +82,7 @@ export const ui = {
     // About
     'about.label': '關於',
     'about.title': '關於 AirMax',
-    'about.body': 'AirMax 是 DBA 在香港的消費者品牌，專注提供高效冷風機及工業風扇。我們的產品於香港設計及測試，配合本地氣候環境，為家居、商業及工業用戶提供切實可行的降溫方案。',
+    'about.body': 'AirMax 專注提供高效冷風機及工業風扇。產品於香港測試，配合本地氣候環境，為家居、商業及工業用戶提供切實可行的降溫方案。',
     'about.contact.title': '聯絡我們',
     'about.whatsapp': 'WhatsApp',
     'about.email': '電郵',
@@ -178,7 +178,7 @@ export const ui = {
     // About
     'about.label': 'About',
     'about.title': 'About AirMax',
-    'about.body': 'AirMax is DBA\'s consumer brand in Hong Kong, specialising in high-performance air coolers and industrial fans. Our products are designed and tested for the local climate, offering practical cooling solutions for homes, offices and industrial spaces.',
+    'about.body': 'AirMax focuses on high-performance air coolers and industrial fans. Our products are tested for the local climate, offering practical cooling solutions for homes, offices and industrial spaces.',
     'about.contact.title': 'Contact',
     'about.whatsapp': 'WhatsApp',
     'about.email': 'Email',
