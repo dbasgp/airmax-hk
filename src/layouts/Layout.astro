@@ -14,12 +14,32 @@ interface Props {
 
 const { locale, title, description, canonicalPath, ogImage = '/og.jpg' } = Astro.props;
 
-const siteUrl = 'https://airmax.hk';
+const siteUrl = 'https://www.airmax.hk';
 const canonical = `${siteUrl}${canonicalPath}`;
 const altLang = locale === 'zh' ? 'en' : 'zh';
 const altHreflang = locale === 'zh' ? 'en' : 'zh-HK';
 const thisHreflang = locale === 'zh' ? 'zh-HK' : 'en';
 const altPath = canonicalPath.replace(/^\/(zh|en)/, `/${altLang}`);
+const ogLocale = locale === 'zh' ? 'zh_HK' : 'en_HK';
+const ogLocaleAlt = locale === 'zh' ? 'en_HK' : 'zh_HK';
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'AirMax.hk',
+  url: `${siteUrl}/zh`,
+  email: 'info@airmax.hk',
+  telephone: '+852 2121 0503',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+852 2121 0503',
+    contactType: 'sales',
+    areaServed: 'HK',
+    availableLanguage: ['Cantonese', 'English'],
+  },
+  parentOrganization: { '@type': 'Organization', name: 'DBA Electric', url: 'https://dba.hk' },
+};
 ---
 
 <!doctype html>
@@ -42,7 +62,16 @@ const altPath = canonicalPath.replace(/^\/(zh|en)/, `/${altLang}`);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:site_name" content="AirMax.hk" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <slot name="head" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 

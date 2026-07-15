@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { products } from '../data/products';
 
-const site = 'https://airmax.hk';
+const site = 'https://www.airmax.hk';
 const locales = ['zh', 'en'] as const;
 
 const staticRoutes = ['', '/products', '/why-airmax', '/enquiry', '/about'];

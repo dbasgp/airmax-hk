@@ -26,6 +26,39 @@ const sqftNum = coverage ? parseInt(coverage) : 0;
 const sqftFormatted = sqftNum ? sqftNum.toLocaleString('en-HK') : '';
 const isFan = category === 'fan';
 
+const site = 'https://www.airmax.hk';
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: displayName,
+  alternateName: locale === 'zh' ? name.en : name.zh,
+  description: highlights.map((h) => h[locale]).join('. ') || displayName,
+  image: `${site}${image}`,
+  sku,
+  brand: { '@type': 'Brand', name: 'DBA' },
+  url: `${site}${lp(locale, `/products/${product.id}`)}`,
+  ...(priceHkd
+    ? {
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'HKD',
+          price: String(priceHkd),
+          availability: 'https://schema.org/InStock',
+          seller: { '@type': 'Organization', name: 'AirMax.hk' },
+        },
+      }
+    : {}),
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t(locale, 'nav.home'), item: `${site}${lp(locale)}` },
+    { '@type': 'ListItem', position: 2, name: t(locale, 'nav.products'), item: `${site}${lp(locale, '/products')}` },
+    { '@type': 'ListItem', position: 3, name: displayName, item: `${site}${lp(locale, `/products/${product.id}`)}` },
+  ],
+};
+
 const pageTitle = `${displayName} — AirMax.hk`;
 const pageDesc = locale === 'zh'
   ? `${displayName}${sqftNum ? `，適冷約 ${sqftFormatted} 呎` : ''}${airflow ? `，風量 ${airflow}` : ''}。WhatsApp 查詢即時回覆。`
@@ -39,6 +72,10 @@ const pageDesc = locale === 'zh'
   canonicalPath={lp(locale, `/products/${product.id}`)}
   ogImage={image}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 
     <!-- Breadcrumb -->
