@@ -15,6 +15,20 @@ const pageTitle = locale === 'zh'
 const pageDesc = locale === 'zh'
   ? '瀏覽 AirMax 全系列冷風機及工業風扇，涵蓋家居至工業用途，WhatsApp 即時查詢。'
   : 'Browse the full AirMax range of air coolers and industrial fans for home, commercial and industrial use.';
+
+const site = 'https://www.airmax.hk';
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: pageTitle,
+  numberOfItems: coolers.length + fans.length,
+  itemListElement: [...coolers, ...fans].map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.name[locale],
+    url: `${site}${lp(locale, `/products/${p.id}`)}`,
+  })),
+};
 ---
 
 <Layout
@@ -23,6 +37,9 @@ const pageDesc = locale === 'zh'
   description={pageDesc}
   canonicalPath={lp(locale, '/products')}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  </Fragment>
   <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
 
     <!-- Header -->
